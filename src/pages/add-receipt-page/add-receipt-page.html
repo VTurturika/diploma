@@ -7,13 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Add Receipt</ion-title>
+    <ion-title>AddReceiptPage</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+  <h2>Welcome to Ionic!</h2>
 
   <button class="select-image" ion-button block *ngIf="!srcImage" (click)="presentActionSheet()" color="light">
     <ion-icon name="camera"></ion-icon>
@@ -34,20 +35,15 @@
   <form [formGroup]="addReceiptForm" (ngSubmit)="onSubmit()">
   <ion-list>
     <ion-item *ngFor="let rItem of inputItems">
-      <span>{{i}}</span>
-        <ion-input item-left [(ngModel)]="rItem.name"
-                   type="text"
-                   formControlName="addReceiptForm.items[i].itemName"
+        <ion-input item-left [(ngModel)]="rItem.name" formControlName="itemName" type="text"
                    placeholder="item name"></ion-input>
-        <ion-input item-right [(ngModel)]="rItem.price"
-                   type="number" step="0.01"
-                   formControlName="addReceiptForm.items[i].itemPrice"
+        <ion-input item-right [(ngModel)]="rItem.price" formControlName="itemPrice" type="number" step="0.01"
                     min="0"></ion-input>
       </ion-item>
   </ion-list>
     <button item-right type="submit" block primary [disabled]="!addReceiptForm.valid">Complete & save <ion-icon
       name="checkmark-circle-outline"></ion-icon></button>
   </form>
-  <button (click)="addItemToReceipt">Add item <ion-icon name="add"></ion-icon></button>
+  <button>Add item <ion-icon name="add"></ion-icon></button>
   <button>Restart <ion-icon name="sync"></ion-icon></button>
 </ion-content>

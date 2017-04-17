@@ -37,9 +37,8 @@ export class AddReceiptPage {
 
     console.log(this.receiptItem);
     this.addReceiptForm = this.formBuilder.group({
-      items: this.formBuilder.array([
-        this.initItem(),
-      ])
+      'itemName': ['', [Validators.required, Validators.minLength(3)]],
+      'itemPrice': ['']
     });
 
     this.inputItems = [];
