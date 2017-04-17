@@ -1,0 +1,53 @@
+<!--
+  Generated template for the AddReceiptPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Receipt</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <button class="select-image" ion-button block *ngIf="!srcImage" (click)="presentActionSheet()" color="light">
+    <ion-icon name="camera"></ion-icon>
+  </button>
+
+  <div *ngIf="srcImage" class="image-wrapper">
+    <img id="image" [src]="srcImage" />
+    <button ion-button icon-left block (click)="analyze()" color="light">
+      <ion-icon name="search"></ion-icon>
+      Read
+    </button>
+    <button ion-button icon-left block (click)="restart()" color="light">
+      <ion-icon name="refresh"></ion-icon>
+      Restart
+    </button>
+  </div>
+
+  <form [formGroup]="addReceiptForm" (ngSubmit)="onSubmit()">
+  <ion-list>
+    <ion-item *ngFor="let rItem of inputItems">
+      <span>{{i}}</span>
+        <ion-input item-left [(ngModel)]="rItem.name"
+                   type="text"
+                   formControlName="addReceiptForm.items[i].itemName"
+                   placeholder="item name"></ion-input>
+        <ion-input item-right [(ngModel)]="rItem.price"
+                   type="number" step="0.01"
+                   formControlName="addReceiptForm.items[i].itemPrice"
+                    min="0"></ion-input>
+      </ion-item>
+  </ion-list>
+    <button item-right type="submit" block primary [disabled]="!addReceiptForm.valid">Complete & save <ion-icon
+      name="checkmark-circle-outline"></ion-icon></button>
+  </form>
+  <button (click)="addItemToReceipt">Add item <ion-icon name="add"></ion-icon></button>
+  <button>Restart <ion-icon name="sync"></ion-icon></button>
+</ion-content>

@@ -12,6 +12,12 @@ import { DetailPage } from '../pages/detail/detail';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {Camera} from "@ionic-native/camera";
+import {HttpModule} from "@angular/http";
+import {AddReceiptPage} from "../pages/add-receipt-page/add-receipt-page";
+import {ViewReceiptPage} from "../pages/view-receipt-page/view-receipt-page";
+import {StatisticsProfilePage} from "../pages/statistics-profile-page/statistics-profile-page";
+import {ListingPage} from "../pages/listing-page/listing-page";
+import {LoginPage} from "../pages/login-page/login-page";
 
 @NgModule({
   declarations: [
@@ -20,10 +26,16 @@ import {Camera} from "@ionic-native/camera";
     ContactPage,
     HomePage,
     TabsPage,
-    DetailPage
+    DetailPage,
+    AddReceiptPage,
+    ListingPage,
+    LoginPage,
+    StatisticsProfilePage,
+    ViewReceiptPage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -33,7 +45,12 @@ import {Camera} from "@ionic-native/camera";
     ContactPage,
     HomePage,
     TabsPage,
-    DetailPage
+    DetailPage,
+    AddReceiptPage,
+    ListingPage,
+    LoginPage,
+    StatisticsProfilePage,
+    ViewReceiptPage
   ],
   providers: [
     StatusBar,

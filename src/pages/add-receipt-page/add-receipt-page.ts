@@ -1,15 +1,27 @@
-import {Component} from "@angular/core";
-import {NavController, LoadingController, ActionSheetController} from "ionic-angular";
-import {Camera} from "@ionic-native/camera";
+import { Component } from '@angular/core';
+import {NavController, NavParams, ActionSheetController, LoadingController} from 'ionic-angular';
 import {SomeData} from "../../providers/some-data";
+import {Camera} from "@ionic-native/camera";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
-
+/**
+ * Generated class for the AddReceiptPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+// @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-add-receipt-page',
+  templateUrl: 'add-receipt-page.html',
   providers: [SomeData]
 })
-export class HomePage {
+export class AddReceiptPage {
+
+  addReceiptForm: FormGroup;
+  receiptItem: {name: string, price: number} = {name: '', price: 0.};
+  inputItems: any[];
+
   srcImage: string;
   tesseract: any;
   public someD: any;
@@ -19,8 +31,31 @@ export class HomePage {
     public actionSheetCtrl: ActionSheetController,
     public loadingCtrl: LoadingController,
     private camera: Camera,
-    public someData: SomeData
+    public someData: SomeData,
+    public formBuilder: FormBuilder
   ) {
+
+    console.log(this.receiptItem);
+    this.addReceiptForm = this.formBuilder.group({
+      items: this.formBuilder.array([
+        this.initItem(),
+      ])
+    });
+
+    this.inputItems = [];
+    this.inputItems.push(this.receiptItem);
+    this.inputItems.push(this.receiptItem);
+  }
+
+  initItem() {
+    return this.formBuilder.group({
+      'itemName': ['', [Validators.required, Validators.minLength(3)]],
+      'itemPrice': ['']
+    });
+  }
+
+  addItemToReceipt() {
+    this.inputItems.push(this.receiptItem);
   }
 
   presentActionSheet() {
@@ -76,16 +111,15 @@ export class HomePage {
       alert(text);
       console.log(text);
     });
-    // (<any>window).tesseract.recognize(img, text => {
-    //   loader.dismissAll();
-    //   alert(text);
-    //   console.log(text);
-    // });
   }
 
   restart() {
     this.srcImage = '';
     this.presentActionSheet();
+  }
+
+  onSubmit() {
+    console.log("form submitted");
   }
 
 }
