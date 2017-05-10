@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, LoadingController} from 'ionic-angular';
 import {ViewReceiptPage} from "../view-receipt-page/view-receipt-page";
+import {DataProvider} from "../../providers/dataprovider";
 
 /**
  * Generated class for the ListingPage page.
@@ -12,12 +13,13 @@ import {ViewReceiptPage} from "../view-receipt-page/view-receipt-page";
 @Component({
   selector: 'page-listing-page',
   templateUrl: 'listing-page.html',
+  providers: [DataProvider],
 })
 export class ListingPage {
 
-  items: any[];
+  public receipts: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public navParams: NavParams, public someData: DataProvider) {
 
     let item = {
       "receipt": {
@@ -33,18 +35,34 @@ export class ListingPage {
       }
     };
 
-    this.items = [];
-    this.items.push(item);
-    this.items.push(item);
-    this.items.push(item);
-    console.log(this.items);
+    this.receipts = [];
+    this.receipts.push(item);
+    this.receipts.push(item);
+    this.receipts.push(item);
+    console.log(this.receipts);
+
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...',
+      duration: 12000
+    });
+    loader.present();
+    this.receipts = [];
+    this.someData.loadListing({}).then((data:any) => {
+      console.log(data);
+      loader.dismissAll();
+      this.receipts = data.receipts;
+      console.log(this.receipts);
+      this.receipts.push(this.receipts[0]);
+    });
+
   }
 
-  itemSelected(item) {
+  public itemSelected(receipt : any) {
+    console.log(`clicked on : + ${receipt}`);
     this.navCtrl.push(ViewReceiptPage, {
-      item: item
+      receipt: receipt
     });
-  }
+  };
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ListingPage');

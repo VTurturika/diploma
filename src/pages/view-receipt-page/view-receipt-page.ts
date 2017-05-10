@@ -13,10 +13,14 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'view-receipt-page.html',
 })
 export class ViewReceiptPage {
-  item: any;
+  receipt: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.item = navParams.get('item');
+    console.log("navparams");
+    console.log(navParams);
+    this.receipt = navParams.get('receipt');
+    console.log("view page");
+    console.log(this.receipt);
   }
 
   ionViewDidLoad() {

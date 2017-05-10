@@ -15,12 +15,16 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      <ion-icon color="danger" item-left name="pizza" *ngIf="item.category=='food'"></ion-icon>
-      <ion-icon color="primary" item-left name="phone-portrait" *ngIf="item.category=='electronics'"></ion-icon>
-      <h2><b>{{item.receipt.date}}</b> at <b>{{item.receipt.time}}</b></h2>
-      <p>{{item.receipt.items.length}} items • Total: {{item.receipt.currency}}{{item.receipt.total}}</p>
-      <button ion-button clear item-right (click)="itemSelected(item)">View</button>
+    <button ion-item *ngFor="let receipt of receipts" (click)="itemSelected(receipt)">
+      <ion-icon color="danger" item-left name="pizza" *ngIf="receipt.commonCategory=='food'"></ion-icon>
+      <ion-icon color="primary" item-left name="phone-portrait" *ngIf="receipt.commonCategory=='electronics'"></ion-icon>
+      <ion-icon color="primary" item-left name="cart" *ngIf="receipt.commonCategory=='clothes'"></ion-icon>
+      <ion-icon color="primary" item-left name="home" *ngIf="receipt.commonCategory=='household'"></ion-icon>
+      <ion-icon color="primary" item-left name="color-wand" *ngIf="receipt.commonCategory=='others'"></ion-icon>
+
+      <h2><b>{{receipt.date}}</b> at <b>{{receipt.time}}</b></h2>
+      <p>{{receipt.items.length}} items • Total: {{receipt.currency}}{{receipt.total}}</p>
+      <button ion-button clear item-right (click)="itemSelected(receipt)">View</button>
     </button>
   </ion-list>
 </ion-content>

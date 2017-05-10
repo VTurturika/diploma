@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams, ActionSheetController, LoadingController} from 'ionic-angular';
-import {SomeData} from "../../providers/some-data";
+import {DataProvider} from "../../providers/dataprovider";
 import {Camera} from "@ionic-native/camera";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
@@ -14,47 +14,50 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 @Component({
   selector: 'page-add-receipt-page',
   templateUrl: 'add-receipt-page.html',
-  providers: [SomeData]
+  providers: [DataProvider]
 })
 export class AddReceiptPage {
 
-  addReceiptForm: FormGroup;
-  receiptItem: {name: string, price: number} = {name: '', price: 0.};
-  inputItems: any[];
-
+  receipt : any;
   srcImage: string;
-  tesseract: any;
-  public someD: any;
 
   constructor(
     public navCtrl: NavController,
     public actionSheetCtrl: ActionSheetController,
     public loadingCtrl: LoadingController,
     private camera: Camera,
-    public someData: SomeData,
+    public dataprovider: DataProvider,
     public formBuilder: FormBuilder
   ) {
+    // this.addReceiptForm = this.formBuilder.group({
+    //   'itemName': ['', [Validators.required, Validators.minLength(3)]],
+    //   'itemPrice': ['']
+    // });
 
-    console.log(this.receiptItem);
-    this.addReceiptForm = this.formBuilder.group({
-      'itemName': ['', [Validators.required, Validators.minLength(3)]],
-      'itemPrice': ['']
-    });
-
-    this.inputItems = [];
-    this.inputItems.push(this.receiptItem);
-    this.inputItems.push(this.receiptItem);
+    this.restartForm();
   }
 
   initItem() {
     return this.formBuilder.group({
-      'itemName': ['', [Validators.required, Validators.minLength(3)]],
-      'itemPrice': ['']
+      'name': ['', [Validators.required, Validators.minLength(3)]],
+      "val": [''],
+      'price': ['']
     });
   }
 
+  restartForm() {
+    this.receipt = {};
+    this.receipt.currency = "";
+    this.receipt.items = [];
+    this.receipt.items = [
+      {name: '', val: 1, price: 0.},
+      {name: '', val: 1, price: 0.}
+    ];
+    this.restart();
+  }
+
   addItemToReceipt() {
-    this.inputItems.push(this.receiptItem);
+    this.receipt.items.push({name: '', val: 1, price: 0.});
   }
 
   presentActionSheet() {
@@ -64,16 +67,19 @@ export class AddReceiptPage {
           text: 'Choose Photo',
           handler: () => {
             this.getPicture(0); // 0 == Library
+            this.analyze();
           }
         },{
           text: 'Take Photo',
           handler: () => {
             this.getPicture(1); // 1 == Camera
+            this.analyze();
           }
         },{
           text: 'Demo Photo',
           handler: () => {
-            this.srcImage = 'assets/img/demo.png';
+            this.srcImage = 'assets/img/demo.jpg';
+            this.analyze();
           }
         },{
           text: 'Cancel',
@@ -90,7 +96,7 @@ export class AddReceiptPage {
       destinationType: 0, // DATA_URL
       sourceType,
       allowEdit: true,
-      saveToPhotoAlbum: false,
+      saveToPhotoAlbum: true,
       correctOrientation: true
     }).then((imageData) => {
       this.srcImage = `data:image/jpeg;base64,${imageData}`;
@@ -101,24 +107,35 @@ export class AddReceiptPage {
 
   analyze() {
     let loader = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Please wait...',
+      duration: 12000
     });
     loader.present();
-    let img = document.getElementById('image');
-    (<any>window).OCRAD(img, text => {
-      loader.dismissAll();
-      alert(text);
-      console.log(text);
+    console.log(this.srcImage);
+    this.dataprovider.sendPhoto(this.srcImage).then(res => {
+      console.log(res);
+      setTimeout(() => {this.receipt = res;
+        loader.dismissAll();}, 7000);
     });
   }
 
   restart() {
     this.srcImage = '';
-    this.presentActionSheet();
   }
 
   onSubmit() {
-    console.log("form submitted");
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...',
+      duration: 12000
+    });
+    loader.present();
+    console.log(this.receipt.items);
+    this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
+      console.log(res);
+      setTimeout(() => {this.receipt = res;
+        loader.dismissAll();}, 5000);
+
+    });
   }
 
 }
