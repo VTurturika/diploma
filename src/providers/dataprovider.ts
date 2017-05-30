@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Http, Headers} from "@angular/http";
-
+import { File } from '@ionic-native/file';
+import { Transfer, TransferObject } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
 /*
   Generated class for the DataProvider provider.
 
@@ -12,8 +14,8 @@ import {Http, Headers} from "@angular/http";
 export class DataProvider {
 
   data: String;
-  endpoint: String = "http://54.172.121.49/api";
-  userToken: String = "userToken";
+  endpoint: String = "http://192.168.0.103:3000/api";
+  userToken: String = "5929772ac0628e541b4a6e21";
   receiptRes: any = {
     feedbackToken: "abcd1234",
     date: "2017-04-23",
@@ -47,7 +49,12 @@ export class DataProvider {
     ]
   };
 
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    private transfer: Transfer,
+    private file: File,
+    private filePath: FilePath,
+  ) {
     console.log('Hello DataProvider Provider');
   }
 
@@ -69,7 +76,7 @@ export class DataProvider {
   }
 
   sendUserFeedback(inputJson : any, feedbackToken : String) {
-    let headers = new Headers();
+
     return new Promise(resolve => {
       // this.http.post(`${this.endpoint}/receipt/feedback?userToken=${this.userToken},feedbackToken=${feedbackToken}`,
       // inputJson);
@@ -79,17 +86,30 @@ export class DataProvider {
     })
   }
 
-  sendPhoto(imgData) {
-    let headers = new Headers();
-    headers.append('mimeType', 'multipart/form-data');
+  sendPhoto(imgPath) {
+
+    console.log('sendPhoto start')
 
     return new Promise(resolve => {
 
-      // this.http.post(`${this.endpoint}/receipt/ocr?userToken=${this.userToken}`, {receipt: imgData}, {headers: headers})
-      //   .map(res => res.json())
-      //   .subscribe(data => resolve(data));
-
-      resolve(this.receiptRes);
+      const options = {
+        fileKey: "receipt",
+        fileName: "filename",
+        chunkedMode: false,
+        mimeType: "multipart/form-data"
+      };
+      const url = `${this.endpoint}/receipt/ocr?userToken=${this.userToken}`;
+      const fileTransfer: TransferObject = this.transfer.create();
+      console.log('upload start');
+      fileTransfer.upload(imgPath, url, options).then(data => {
+          console.log('upload success');
+          console.log(JSON.stringify(data));
+          console.log('sendPhoto success')
+          resolve(data.response)
+        }, err => {
+            console.log(`ERROR -> ${JSON.stringify(err)}`);
+            resolve({err:err})
+      });
     });
   }
 }

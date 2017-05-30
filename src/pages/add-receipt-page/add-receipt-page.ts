@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ActionSheetController, LoadingController} from 'ionic-angular';
+import {NavController, NavParams, ActionSheetController, LoadingController, ToastController} from 'ionic-angular';
 import {DataProvider} from "../../providers/dataprovider";
 import {Camera} from "@ionic-native/camera";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-
 /**
  * Generated class for the AddReceiptPage page.
  *
@@ -19,7 +18,6 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 export class AddReceiptPage {
 
   receipt : any;
-  srcImage: string;
 
   constructor(
     public navCtrl: NavController,
@@ -27,7 +25,8 @@ export class AddReceiptPage {
     public loadingCtrl: LoadingController,
     private camera: Camera,
     public dataprovider: DataProvider,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public toastCtrl: ToastController
   ) {
     // this.addReceiptForm = this.formBuilder.group({
     //   'itemName': ['', [Validators.required, Validators.minLength(3)]],
@@ -66,21 +65,23 @@ export class AddReceiptPage {
         {
           text: 'Choose Photo',
           handler: () => {
-            this.getPicture(0); // 0 == Library
-            this.analyze();
+            console.log('Choose Photo')
+            this.getPicture(0) // 0 == Library
+              .then(imagePath => this.analyze(imagePath));
           }
         },{
           text: 'Take Photo',
           handler: () => {
-            this.getPicture(1); // 1 == Camera
-            this.analyze();
+            console.log('Take Photo')
+            this.getPicture(1) // 1 == Camera
+              .then(imagePath => this.analyze(imagePath));
           }
         },{
           text: 'Demo Photo',
-          handler: () => {
-            this.srcImage = 'assets/img/demo.jpg';
-            this.analyze();
-          }
+          // handler: () => {
+          //   console.log('Demo Photo')
+          //   this.analyze('assets/img/demo.jpg');
+          // }
         },{
           text: 'Cancel',
           role: 'cancel'
@@ -91,51 +92,56 @@ export class AddReceiptPage {
   }
 
   getPicture(sourceType: number) {
-    this.camera.getPicture({
-      quality: 100,
-      destinationType: 0, // DATA_URL
-      sourceType,
-      allowEdit: true,
-      saveToPhotoAlbum: true,
-      correctOrientation: true
-    }).then((imageData) => {
-      this.srcImage = `data:image/jpeg;base64,${imageData}`;
-    }, (err) => {
-      console.log(`ERROR -> ${JSON.stringify(err)}`);
-    });
+    console.log('getPicture start');
+    return new Promise(resolve => {
+      this.camera.getPicture({
+        quality: 100,
+        sourceType,
+        allowEdit: true,
+        saveToPhotoAlbum: true,
+        correctOrientation: true
+      }).then((imagePath) => {
+        console.log('getPicture success')
+        console.log(imagePath);
+        resolve(imagePath);
+      }, (err) => {
+        console.log(`ERROR -> ${JSON.stringify(err)}`);
+      });
+    })
   }
 
-  analyze() {
+  analyze(imagePath) {
+    console.log('analyze start');
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
       duration: 12000
     });
     loader.present();
-    console.log(this.srcImage);
-    this.dataprovider.sendPhoto(this.srcImage).then(res => {
-      console.log(res);
-      setTimeout(() => {this.receipt = res;
-        loader.dismissAll();}, 7000);
+    this.dataprovider.sendPhoto(imagePath).then(res => {
+      loader.dismissAll();
+      console.log('analyze success');
+      console.log(JSON.stringify(res));
+      this.receipt = res;
     });
   }
 
   restart() {
-    this.srcImage = '';
+
   }
 
   onSubmit() {
-    let loader = this.loadingCtrl.create({
-      content: 'Please wait...',
-      duration: 12000
-    });
-    loader.present();
-    console.log(this.receipt.items);
-    this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
-      console.log(res);
-      setTimeout(() => {this.receipt = res;
-        loader.dismissAll();}, 5000);
-
-    });
+    console.log('onSubmit');
+    // let loader = this.loadingCtrl.create({
+    //   content: 'Please wait...',
+    //   duration: 12000
+    // });
+    // loader.present();
+    // console.log(this.receipt.items);
+    // this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
+    //   console.log(res);
+    //   setTimeout(() => {this.receipt = res;
+    //     loader.dismissAll();}, 5000);
+    //
+    // });
   }
-
 }
