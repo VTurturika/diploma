@@ -14,8 +14,8 @@ import { FilePath } from '@ionic-native/file-path';
 export class DataProvider {
 
   data: String;
-  endpoint: String = "http://192.168.0.103:3000/api";
-  userToken: String = "5929772ac0628e541b4a6e21";
+  endpoint: String = "http://54.197.180.84/api";
+  userToken: String = "592ec7814953200cd50b00bb";
   receiptRes: any = {
     feedbackToken: "abcd1234",
     date: "2017-04-23",

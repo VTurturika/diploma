@@ -113,8 +113,7 @@ export class AddReceiptPage {
   analyze(imagePath) {
     console.log('analyze start');
     let loader = this.loadingCtrl.create({
-      content: 'Please wait...',
-      duration: 12000
+      content: 'Please wait...'
     });
     loader.present();
     this.dataprovider.sendPhoto(imagePath).then(res => {
