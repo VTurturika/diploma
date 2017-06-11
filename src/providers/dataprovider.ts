@@ -16,56 +16,56 @@ export class DataProvider {
   data: String;
   endpoint: String = "http://54.197.180.84/api";
   userToken: String = "592ec7814953200cd50b00bb";
-  receiptRes: any = {
-    feedbackToken: "abcd1234",
-    date: "2017-04-23",
-    time: "15:30",
-    total: 39.24,
-    currency: "UAH",
-    commonCategory: "food",
-    items:[
-      {
-        number: 1,
-        name: "Пампушки з часткм",
-        price: 6.4,
-        category: "food",
-        measure: "г",
-        value: 250,
-      },{
-        number: 2,
-        name: "МаслоСелянськеВершк",
-        price: 28.99,
-        category: "others",
-        measure: "г",
-        value: 200,
-      }
-    ]
-  };
-  confiredRec : any = {
-    feedbackToken: "abcd1234",
-    date: "2017-04-23",
-    time: "15:30",
-    total: 39.24,
-    currency: "UAH",
-    commonCategory: "food",
-    items:[
-      {
-        number: 1,
-        name: "Пампушки з часником",
-        price: 6.49,
-        category: "food",
-        measure: "г",
-        value: 250,
-      },{
-        number: 2,
-        name: "Масло Селянське Вершкове",
-        price: 28.99,
-        category: "food",
-        measure: "г",
-        value: 200,
-      }
-    ]
-  };
+  // receiptRes: any = {
+  //   feedbackToken: "abcd1234",
+  //   date: "2017-04-23",
+  //   time: "15:30",
+  //   total: 39.24,
+  //   currency: "UAH",
+  //   commonCategory: "food",
+  //   items:[
+  //     {
+  //       number: 1,
+  //       name: "Пампушки з часткм",
+  //       price: 6.4,
+  //       category: "food",
+  //       measure: "г",
+  //       value: 250,
+  //     },{
+  //       number: 2,
+  //       name: "МаслоСелянськеВершк",
+  //       price: 28.99,
+  //       category: "others",
+  //       measure: "г",
+  //       value: 200,
+  //     }
+  //   ]
+  // };
+  // confiredRec : any = {
+  //   feedbackToken: "abcd1234",
+  //   date: "2017-04-23",
+  //   time: "15:30",
+  //   total: 39.24,
+  //   currency: "UAH",
+  //   commonCategory: "food",
+  //   items:[
+  //     {
+  //       number: 1,
+  //       name: "Пампушки з часником",
+  //       price: 6.49,
+  //       category: "food",
+  //       measure: "г",
+  //       value: 250,
+  //     },{
+  //       number: 2,
+  //       name: "Масло Селянське Вершкове",
+  //       price: 28.99,
+  //       category: "food",
+  //       measure: "г",
+  //       value: 200,
+  //     }
+  //   ]
+  // };
 
   constructor(
     public http: Http,
@@ -96,10 +96,10 @@ export class DataProvider {
   sendUserFeedback(inputJson : any, feedbackToken : String) {
 
     return new Promise(resolve => {
-      // this.http.post(`${this.endpoint}/receipt/feedback?userToken=${this.userToken},feedbackToken=${feedbackToken}`,
-      // inputJson);
+      this.http.post(`${this.endpoint}/receipt/feedback?userToken=${this.userToken},feedbackToken=${feedbackToken}`,
+      inputJson).map(res => res.json()).subscribe(data => resolve(data));
 
-      resolve(this.confiredRec);
+      // resolve(this.confiredRec);
 
     })
   }
