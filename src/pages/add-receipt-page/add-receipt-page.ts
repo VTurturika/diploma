@@ -18,6 +18,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 export class AddReceiptPage {
 
   receipt : any;
+  selectOptions: any;
 
   constructor(
     public navCtrl: NavController,
@@ -26,13 +27,14 @@ export class AddReceiptPage {
     private camera: Camera,
     public dataprovider: DataProvider,
     public formBuilder: FormBuilder,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
   ) {
     // this.addReceiptForm = this.formBuilder.group({
     //   'itemName': ['', [Validators.required, Validators.minLength(3)]],
     //   'itemPrice': ['']
     // });
 
+    this.selectOptions = { title: 'Category' };
     this.restartForm();
   }
 
@@ -130,17 +132,17 @@ export class AddReceiptPage {
 
   onSubmit() {
     console.log('onSubmit');
-    // let loader = this.loadingCtrl.create({
-    //   content: 'Please wait...',
-    //   duration: 12000
-    // });
-    // loader.present();
-    // console.log(this.receipt.items);
-    // this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
-    //   console.log(res);
-    //   setTimeout(() => {this.receipt = res;
-    //     loader.dismissAll();}, 5000);
-    //
-    // });
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...',
+      duration: 12000
+    });
+    loader.present();
+    console.log(this.receipt.items);
+    this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
+      console.log(res);
+      setTimeout(() => {this.receipt = res;
+        loader.dismissAll();}, 5000);
+
+    });
   }
 }

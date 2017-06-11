@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {EditReceiptPage} from "../edit-receipt-page/edit-receipt-page";
 
 /**
  * Generated class for the ViewReceiptPage page.
@@ -27,4 +28,16 @@ export class ViewReceiptPage {
     console.log('ionViewDidLoad ViewReceiptPage');
   }
 
+  public doRefresh(refresher) {
+      this.receipt = this.navParams.get('receipt');
+      setTimeout(() => {
+      refresher.complete();
+    }, 700);
+  }
+
+  public editReceipt() {
+    this.navCtrl.push(EditReceiptPage, {
+      receipt: this.receipt
+    });
+  }
 }

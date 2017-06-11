@@ -10,7 +10,7 @@
     <ion-title>{{receipt.date}} {{receipt.time}}</ion-title>
 
     <ion-buttons end>
-      <button ion-button>
+      <button ion-button (click)="editReceipt()">
         Edit
       </button>
     </ion-buttons>
@@ -21,17 +21,22 @@
 
 <ion-content padding>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
   <h5>Category: {{receipt.commonCategory}}
-  <p>Items:</p></h5>
+    <p>Items:</p></h5>
   <ion-list>
-    <ion-item *ngFor="let rItem of receipt.items">
-      <ion-icon color="danger" item-left name="pizza" *ngIf="rItem.category=='food'"></ion-icon>
+    <ion-item *ngFor="let rItem of receipt.items" text-wrap>
+      <ion-icon color="danger" item-left name="pizza" *ngIf="rItem.category=='foods'"></ion-icon>
       <ion-icon color="primary" item-left name="phone-portrait" *ngIf="rItem.category=='electronics'"></ion-icon>
       <ion-icon color="primary" item-left name="cart" *ngIf="rItem.category=='clothes'"></ion-icon>
       <ion-icon color="primary" item-left name="home" *ngIf="rItem.category=='household'"></ion-icon>
       <ion-icon color="primary" item-left name="color-wand" *ngIf="rItem.category=='others'"></ion-icon>
       <span item-left>{{rItem.number}}.</span> {{rItem.name}} x {{rItem.value}} {{rItem.measure}}
-      <span item-right>{{receipt.currency}}{{rItem.price}}</span>
+      <span item-right>{{receipt.currency}}{{rItem.price||0.00}}</span>
     </ion-item>
   </ion-list>
   <ion-title>Total: {{receipt.currency}}{{receipt.total}}</ion-title>

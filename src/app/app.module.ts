@@ -16,6 +16,7 @@ import {LoginPage} from "../pages/login-page/login-page";
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
+import {EditReceiptPage} from "../pages/edit-receipt-page/edit-receipt-page";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FilePath } from '@ionic-native/file-path';
     ListingPage,
     LoginPage,
     StatisticsProfilePage,
-    ViewReceiptPage
+    ViewReceiptPage,
+    EditReceiptPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { FilePath } from '@ionic-native/file-path';
     ListingPage,
     LoginPage,
     StatisticsProfilePage,
-    ViewReceiptPage
+    ViewReceiptPage,
+    EditReceiptPage
   ],
   providers: [
     StatusBar,

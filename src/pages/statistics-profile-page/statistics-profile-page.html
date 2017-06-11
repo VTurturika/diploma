@@ -7,12 +7,31 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>StatisticsProfilePage</ion-title>
+    <ion-title>Statistics</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item text-wrap>
+      <h2 text-wrap>Number of receipts in your account: {{stats.numOfReceipts}}</h2>
+    </ion-item>
+    <ion-item text-wrap>
+      <h2>All time total spent: {{stats.totalSpent}}</h2>
+    </ion-item>
+    <ion-item text-wrap>
+      <h2>Spending timeline: </h2>
+    </ion-item>
+    <ion-item>
+      <canvas #lineChart></canvas>
+    </ion-item>
+    <ion-item text-wrap>
+      <h2>Spent lately: </h2>
+    </ion-item>
+    <ion-item>
+      <canvas #donChart></canvas>
+    </ion-item>
+  </ion-list>
 </ion-content>

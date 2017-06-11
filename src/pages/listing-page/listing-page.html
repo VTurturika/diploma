@@ -14,10 +14,15 @@
 
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <button ion-item *ngFor="let receipt of receipts" (click)="itemSelected(receipt)">
       <ion-icon color="danger" item-left name="pizza" *ngIf="receipt.commonCategory=='foods'"></ion-icon>
-      <ion-icon color="primary" item-left name="phone-portrait" *ngIf="receipt.commonCategory=='electronics'"></ion-icon>
+      <ion-icon color="primary" item-left name="phone-portrait"
+                *ngIf="receipt.commonCategory=='electronics'"></ion-icon>
       <ion-icon color="primary" item-left name="cart" *ngIf="receipt.commonCategory=='clothes'"></ion-icon>
       <ion-icon color="primary" item-left name="home" *ngIf="receipt.commonCategory=='household'"></ion-icon>
       <ion-icon color="primary" item-left name="color-wand" *ngIf="receipt.commonCategory=='others'"></ion-icon>

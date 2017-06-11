@@ -54,7 +54,16 @@ export class ListingPage {
       console.log(this.receipts);
       this.receipts.push(this.receipts[0]);
     });
+  }
 
+  public doRefresh(refresher) {
+    this.someData.loadListing({}).then((data:any) => {
+      console.log(data);
+      this.receipts = data.receipts;
+      console.log(this.receipts);
+      this.receipts.push(this.receipts[0]);
+      refresher.complete();
+    });
   }
 
   public itemSelected(receipt : any) {

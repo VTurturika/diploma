@@ -7,12 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>LoginPage</ion-title>
+    <ion-title>Please, log in</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Username:</ion-label>
+      <ion-input type="text" [(ngModel)]="data.username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Password:</ion-label>
+      <ion-input type="password" [(ngModel)]="data.password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block large (click)="login()">Login</button>
 </ion-content>

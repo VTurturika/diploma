@@ -3,4 +3,8 @@ page-add-receipt-page {
   .textes {
     padding-left: 0.5em;
   }
+
+  input[type=number] {
+    text-align: right;
+  }
 }
