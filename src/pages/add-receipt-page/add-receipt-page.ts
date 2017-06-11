@@ -122,15 +122,9 @@ export class AddReceiptPage {
     this.dataprovider.sendPhoto(imagePath).then(res => {
       loader.dismissAll();
       console.log('analyze success');
-      console.log("RES: "+ JSON.stringify(res));
       this.receipt = {};
       this.receipt = res;
-      console.log("RES AGAIN: " + JSON.stringify(res));
-      console.log("RES AGAIN TWICE: " + res);
-      console.log("RECEIPT STRINGIFIED :"+JSON.stringify(this.receipt));
-      console.log("RECEIPT OBJECT:"+this.receipt);
-      console.log("ITEMS: " +this.receipt.items);
-      console.log("ITEMS STRING"+this.receipt["items"]);
+      console.log(this.receipt);
     });
   }
 
