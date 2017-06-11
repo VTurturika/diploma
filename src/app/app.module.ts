@@ -13,6 +13,9 @@ import {ViewReceiptPage} from "../pages/view-receipt-page/view-receipt-page";
 import {StatisticsProfilePage} from "../pages/statistics-profile-page/statistics-profile-page";
 import {ListingPage} from "../pages/listing-page/listing-page";
 import {LoginPage} from "../pages/login-page/login-page";
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import {LoginPage} from "../pages/login-page/login-page";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Camera
+    Camera,
+    File,
+    Transfer,
+    FilePath
   ]
 })
 export class AppModule {}
