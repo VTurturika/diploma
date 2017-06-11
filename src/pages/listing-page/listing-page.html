@@ -16,7 +16,7 @@
 <ion-content>
   <ion-list>
     <button ion-item *ngFor="let receipt of receipts" (click)="itemSelected(receipt)">
-      <ion-icon color="danger" item-left name="pizza" *ngIf="receipt.commonCategory=='food'"></ion-icon>
+      <ion-icon color="danger" item-left name="pizza" *ngIf="receipt.commonCategory=='foods'"></ion-icon>
       <ion-icon color="primary" item-left name="phone-portrait" *ngIf="receipt.commonCategory=='electronics'"></ion-icon>
       <ion-icon color="primary" item-left name="cart" *ngIf="receipt.commonCategory=='clothes'"></ion-icon>
       <ion-icon color="primary" item-left name="home" *ngIf="receipt.commonCategory=='household'"></ion-icon>

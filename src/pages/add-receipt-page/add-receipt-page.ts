@@ -49,14 +49,14 @@ export class AddReceiptPage {
     this.receipt.currency = "";
     this.receipt.items = [];
     this.receipt.items = [
-      {name: '', val: 1, price: 0.},
-      {name: '', val: 1, price: 0.}
+      {name: '', val: 1, price: 0., value: 1},
+      {name: '', val: 1, price: 0., value: 1}
     ];
     this.restart();
   }
 
   addItemToReceipt() {
-    this.receipt.items.push({name: '', val: 1, price: 0.});
+    this.receipt.items.push({name: '', val: 1, price: 0., value: 1});
   }
 
   presentActionSheet() {
