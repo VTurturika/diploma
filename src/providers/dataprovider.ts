@@ -123,7 +123,7 @@ export class DataProvider {
           console.log('upload success');
           console.log(JSON.stringify(data));
           console.log('sendPhoto success')
-          resolve(data.response)
+          resolve(JSON.parse(data.response))
         }, err => {
             console.log(`ERROR -> ${JSON.stringify(err)}`);
             resolve({err:err})
