@@ -18,31 +18,49 @@ export class DataProvider {
     feedbackToken: "abcd1234",
     date: "2017-04-23",
     time: "15:30",
-    total: 123.50,
+    total: 39.24,
     currency: "UAH",
     commonCategory: "food",
     items:[
       {
         number: 1,
-        name: "Яблуко Зелене",
-        price: 12.30,
+        name: "Пампушки з часткм",
+        price: 6.4,
         category: "food",
-        measure: "кг",
-        value: 0.73,
+        measure: "г",
+        value: 250,
       },{
         number: 2,
-        name: "Яблуко Червоне",
-        price: 15.30,
+        name: "МаслоСелянськеВершк",
+        price: 28.99,
+        category: "others",
+        measure: "г",
+        value: 200,
+      }
+    ]
+  };
+  confiredRec : any = {
+    feedbackToken: "abcd1234",
+    date: "2017-04-23",
+    time: "15:30",
+    total: 39.24,
+    currency: "UAH",
+    commonCategory: "food",
+    items:[
+      {
+        number: 1,
+        name: "Пампушки з часником",
+        price: 6.49,
         category: "food",
-        measure: "кг",
-        value: 0.5,
+        measure: "г",
+        value: 250,
       },{
-        number: 3,
-        name: "Батарейки",
-        price: 5.40,
-        category: "electronics",
-        measure: "шт",
-        value: 2,
+        number: 2,
+        name: "Масло Селянське Вершкове",
+        price: 28.99,
+        category: "food",
+        measure: "г",
+        value: 200,
       }
     ]
   };
@@ -74,7 +92,7 @@ export class DataProvider {
       // this.http.post(`${this.endpoint}/receipt/feedback?userToken=${this.userToken},feedbackToken=${feedbackToken}`,
       // inputJson);
 
-      resolve(this.receiptRes);
+      resolve(this.confiredRec);
 
     })
   }
