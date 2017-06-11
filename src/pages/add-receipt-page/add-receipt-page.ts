@@ -79,13 +79,15 @@ export class AddReceiptPage {
             this.getPicture(1) // 1 == Camera
               .then(imagePath => this.analyze(imagePath));
           }
-        },{
-          text: 'Demo Photo',
-          // handler: () => {
-          //   console.log('Demo Photo')
-          //   this.analyze('assets/img/demo.jpg');
-          // }
-        },{
+        },
+        // {
+        //   text: 'Demo Photo',
+        //   // handler: () => {
+        //   //   console.log('Demo Photo')
+        //   //   this.analyze('assets/img/demo.jpg');
+        //   // }
+        // },
+        {
           text: 'Cancel',
           role: 'cancel'
         }
