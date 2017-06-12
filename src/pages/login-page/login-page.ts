@@ -34,7 +34,7 @@ export class LoginPage {
   }
 
   public login() {
-
+    // this.navCtrl.push(TabsPage);
     let loader = this.loadingCtrl.create({
       content: 'Please wait...'
     });
@@ -42,7 +42,7 @@ export class LoginPage {
     this.loginProvider.login(this.data)
       .then(res => {
 
-        loader.dismissAll();  
+        loader.dismissAll();
         let result:any = res
 
         if(result.isLogined) {

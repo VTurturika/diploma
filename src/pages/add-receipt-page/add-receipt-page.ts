@@ -19,6 +19,7 @@ export class AddReceiptPage {
 
   receipt : any;
   selectOptions: any;
+  isManualActive: Boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -37,6 +38,7 @@ export class AddReceiptPage {
     this.receipt = {};
     this.selectOptions = { title: 'Category' };
     this.restartForm();
+    this.isManualActive = false;
   }
 
   initItem() {
@@ -53,13 +55,16 @@ export class AddReceiptPage {
     this.receipt.items = [];
     this.receipt.items = [
       {name: '', val: 1, price: 0., value: 1},
-      {name: '', val: 1, price: 0., value: 1}
     ];
     this.restart();
   }
 
   addItemToReceipt() {
-    this.receipt.items.push({name: '', val: 1, price: 0., value: 1});
+    if(!this.isManualActive) {
+      this.isManualActive = true;
+    } else {
+      this.receipt.items.push({name: '', val: 1, price: 0., value: 1});
+    }
   }
 
   presentActionSheet() {
@@ -119,6 +124,8 @@ export class AddReceiptPage {
       console.log('analyze success');
       this.receipt = res;
       console.log(this.receipt);
+      this.isManualActive = true;
+      console.log(this.receipt.feedbackToken);
     });
   }
 
@@ -137,6 +144,7 @@ export class AddReceiptPage {
       console.log('onSubmit success');
       console.log(JSON.stringify(res));
       this.receipt = {};
+      this.isManualActive = false;
       loader.dismissAll();
     });
   }

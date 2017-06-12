@@ -15,11 +15,7 @@
 
 <ion-content>
   <div>
-    <button class="select-image" icon-right ion-button block *ngIf="!srcImage" (click)="presentActionSheet()"
-            color="light">
-      <span item-right>Analyze receipt by photo </span>
-      <ion-icon icon-right name="camera"></ion-icon>
-    </button>
+
   </div>
 
   <!--<div *ngIf="srcImage" class="image-wrapper">-->
@@ -34,54 +30,85 @@
   <!--</button>-->
   <!--</div>-->
 
-  <h3 class="textes">Or fill it by hand: </h3>
+  <!--left 1 row-->
+  <!--button to analyze photo-->
+  <!--left 1 row-->
+  <!--button to open manual form-->
+  <!--right 2 rows-->
+  <!--reset button-->
   <ion-title>
-    <button ion-button center icon-left="" color="secondary" class="textes" (click)="addItemToReceipt()">
-      <ion-icon
-        name="add"></ion-icon>
-      Add item
-    </button>
-    <button ion-button center icon-right="" color="danger" class="danger" (click)="restartForm()">Restart
-      <ion-icon
-        name="sync"></ion-icon>
-    </button>
+  <ion-grid>
+    <ion-row>
+
+      <ion-col col-5 push-7> <div><button ion-button center icon-right color="yellow" class="textes"
+                                          (click)="addItemToReceipt()">
+        <span>Manually</span>
+        <ion-icon name="add"></ion-icon>
+      </button></div></ion-col>
+
+      <ion-col col-7 pull-5> <div><button ion-button center icon-left color="secondary" class="textes" *ngIf="!srcImage"
+                       (click)="presentActionSheet()">
+        <ion-icon icon-left name="camera"></ion-icon> <span item-left>Analyze by photo</span>
+      </button></div></ion-col>
+    </ion-row>
+  </ion-grid>
   </ion-title>
-  <form #model="ngForm" (ngSubmit)="onSubmit()">
-    <ion-list>
-      <ion-item text-wrap>
-        <ion-label fixed>Currency:</ion-label>
-        <ion-input type="text" [(ngModel)]="receipt.currency" name="currency" id="currencyInput"
-                   placeholder="currency of receipt">
-        </ion-input>
-      </ion-item>
-      <ion-item text-wrap>
-        <ion-label>Name</ion-label>
-        <ion-label>Type</ion-label>
-        <ion-label>Qty</ion-label>
-        <ion-label>Price</ion-label>
-      </ion-item>
-      <ion-item *ngFor="let rItem of receipt.items; let i = index" text-wrap>
-        <!--dropdown category-->
-        <ion-input [(ngModel)]="receipt.items[i].name" name="name_{{i}}" type="text"
-                   placeholder="name" text-wrap></ion-input>
-        <ion-select [(ngModel)]="receipt.items[i].category" name="cat_{{i}}" placeholder="food"
-                    [selectOptions]="selectOptions">
-          <ion-option value="foods">Food</ion-option>
-          <ion-option value="electronics">Electronic</ion-option>
-          <ion-option value="clothes">Cloth</ion-option>
-          <ion-option value="household">Household</ion-option>
-          <ion-option value="others">Other</ion-option>
-        </ion-select>
-        <!--<span>x</span>-->
-        <ion-input [(ngModel)]="receipt.items[i].value" name="val_{{i}}" type="number"
-                   step="1" min="1"></ion-input>
 
-        <ion-input item-right [(ngModel)]="receipt.items[i].price" name="price_{{i}}" type="number"
-                   step="0.01"
-                   min="0"></ion-input>
+  <!--currency-->
+  <!--table-->
+  <!--confirm button-->
 
-      </ion-item>
-    </ion-list>
+  <form #model="ngForm" (ngSubmit)="onSubmit()" *ngIf="isManualActive">
+    <ion-grid>
+      <ion-row text-wrap>
+        <ion-col col-4 push-8><button ion-button center icon-right="" block color="danger" class="danger" #restart
+                                (click)="restartForm()">                          Restart
+          <ion-icon
+            name="sync"></ion-icon>
+        </button></ion-col>
+        <ion-col col-8 pull-4>
+          <div #currency>
+          <label>Currency:</label><ion-input type="text"
+                                                      [(ngModel)]="receipt.currency"
+                                                      name="currency"
+                                                      id="currencyInput"
+                                                      placeholder="$"></ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let rItem of receipt.items; let i = index" text-wrap>
+        <p>Item #{{i+1}}</p>
+        <ion-grid class="repeat">
+        <ion-row>
+          <ion-col col-6 push-6><div><h3>Quantity: </h3><ion-input [(ngModel)]="receipt.items[i].value"
+                                                                    name="val_{{i}}"
+                                                      type="number"
+                                  step="1" min="1"></ion-input></div></ion-col>
+          <ion-col col-6 pull-6 ><div><h3>Name: </h3><ion-input [(ngModel)]="receipt.items[i].name" name="name_{{i}}"
+                                                               type="text"
+                                                               placeholder="Name of the item" text-wrap></ion-input></div></ion-col>
+        </ion-row>
+          <ion-row>
+            <ion-col col-6 push-6><div><h3>Type: </h3><ion-select [(ngModel)]="receipt.items[i].category" name="cat_{{i}}"
+                                                        placeholder="food"
+                                      [selectOptions]="selectOptions">
+              <ion-option value="foods">Food</ion-option>
+              <ion-option value="electronics">Electronic</ion-option>
+              <ion-option value="clothes">Cloth</ion-option>
+              <ion-option value="household">Household</ion-option>
+              <ion-option value="others">Other</ion-option>
+            </ion-select></div></ion-col>
+            <ion-col col-6 pull-6><div><h3>Price: </h3><ion-input item-right [(ngModel)]="receipt.items[i].price"
+                                                       name="price_{{i}}"
+                                         type="number"
+                                      step="0.01"
+                                      min="0"></ion-input></div></ion-col>
+          </ion-row>
+        </ion-grid>
+        <hr>
+      </ion-row>
+    </ion-grid>
 
     <button ion-button full outline *ngIf="!receipt.feedbackToken" item-right type="submit" block primary>Complete &
       save
@@ -93,4 +120,7 @@
         name="checkmark-circle-outline" class="textes"></ion-icon>
     </button>
   </form>
+
+
+
 </ion-content>

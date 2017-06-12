@@ -1,10 +1,51 @@
 page-add-receipt-page {
 
+  * {
+    padding-left: 0.05%;
+  }
+
   .textes {
     padding-left: 0.5em;
   }
 
   input[type=number] {
     text-align: right;
+  }
+
+  .repeat ion-row {
+    border: 1px solid #e6e9ee;
+    border-radius: 2px;
+
+  }
+
+  ion-col {
+    border: 0;
+    text-align: left;
+  }
+
+  .repeat ion-col {
+    border-right: 1px solid #e6e9ee;
+  }
+
+  button {
+    //padding: 10px;
+    //margin: 10px;
+  }
+
+  #restart {
+    //left-padding: 10%;
+  }
+
+  #currency {
+    display: inline-block;
+  }
+
+  ion-select {
+    max-width: 100%;
+    min-width: 40%;
+  }
+
+  ion-input {
+    border-bottom: 0.5px solid #e6e9ee;
   }
 }
