@@ -36,32 +36,20 @@ export class ListingPage {
     };
 
     this.receipts = [];
-    this.receipts.push(item);
-    this.receipts.push(item);
-    this.receipts.push(item);
-    console.log(this.receipts);
 
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
-      duration: 12000
     });
     loader.present();
-    this.receipts = [];
     this.someData.loadListing({}).then((data:any) => {
-      console.log(data);
       loader.dismissAll();
       this.receipts = data.receipts;
-      console.log(this.receipts);
-      this.receipts.push(this.receipts[0]);
     });
   }
 
   public doRefresh(refresher) {
     this.someData.loadListing({}).then((data:any) => {
-      console.log(data);
       this.receipts = data.receipts;
-      console.log(this.receipts);
-      this.receipts.push(this.receipts[0]);
       refresher.complete();
     });
   }

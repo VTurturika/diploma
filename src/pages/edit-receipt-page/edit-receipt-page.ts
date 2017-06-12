@@ -48,17 +48,14 @@ export class EditReceiptPage {
   onSubmit() {
     console.log('onSubmit');
     let loader = this.loadingCtrl.create({
-      content: 'Please wait...',
-      duration: 12000
+      content: 'Please wait...'
     });
     loader.present();
     console.log(this.receipt.items);
     this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
       console.log(res);
-      setTimeout(() => {
-        this.receipt = res;
-        loader.dismissAll();
-      }, 5000);
+      this.receipt = res;
+      loader.dismissAll();
     });
   }
 

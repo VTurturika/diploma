@@ -16,56 +16,6 @@ export class DataProvider {
   data: String;
   endpoint: String = "http://54.197.180.84/api";
   userToken: String = "592ec7814953200cd50b00bb";
-  // receiptRes: any = {
-  //   feedbackToken: "abcd1234",
-  //   date: "2017-04-23",
-  //   time: "15:30",
-  //   total: 39.24,
-  //   currency: "UAH",
-  //   commonCategory: "food",
-  //   items:[
-  //     {
-  //       number: 1,
-  //       name: "Пампушки з часткм",
-  //       price: 6.4,
-  //       category: "food",
-  //       measure: "г",
-  //       value: 250,
-  //     },{
-  //       number: 2,
-  //       name: "МаслоСелянськеВершк",
-  //       price: 28.99,
-  //       category: "others",
-  //       measure: "г",
-  //       value: 200,
-  //     }
-  //   ]
-  // };
-  // confiredRec : any = {
-  //   feedbackToken: "abcd1234",
-  //   date: "2017-04-23",
-  //   time: "15:30",
-  //   total: 39.24,
-  //   currency: "UAH",
-  //   commonCategory: "food",
-  //   items:[
-  //     {
-  //       number: 1,
-  //       name: "Пампушки з часником",
-  //       price: 6.49,
-  //       category: "food",
-  //       measure: "г",
-  //       value: 250,
-  //     },{
-  //       number: 2,
-  //       name: "Масло Селянське Вершкове",
-  //       price: 28.99,
-  //       category: "food",
-  //       measure: "г",
-  //       value: 200,
-  //     }
-  //   ]
-  // };
 
   constructor(
     public http: Http,
@@ -79,7 +29,14 @@ export class DataProvider {
   loadListing(input : any) {
 
     return new Promise(resolve => {
-      this.http.get(`${this.endpoint}/user/list?userToken=${this.userToken}&dateFrom=${input.dateFrom||""}&dateTo=${input.dateTo||""}&minTotal=${input.minTotal||""}&maxTotal=${input.maxTotal||""}&category=${input.category||""}&currency=${input.currency||""}`)
+      let url = `${this.endpoint}/user/list?userToken=${this.userToken}`;
+      if(input.dateFrom) url = `${url}&dateFrom=${input.dateFrom}`;
+      if(input.dateTo) url = `${url}&dateTo=${input.dateTo}`;
+      if(input.minTotal) url = `${url}&minTotal=${input.minTotal}`;
+      if(input.maxTotal) url = `${url}&maxTotal=${input.maxTotal}`;
+      if(input.category) url = `${url}&category=${input.category}`;
+      if(input.currency) url = `${url}&currency=${input.currency}`;
+      this.http.get(url)
         .map(res => res.json())
         .subscribe(data => resolve(data));
     })
@@ -95,19 +52,26 @@ export class DataProvider {
 
   sendUserFeedback(inputJson : any, feedbackToken : String) {
 
+    console.log('sendUserFeedback start');
+    console.log('inputJson: ' + JSON.stringify(inputJson));
+
     return new Promise(resolve => {
-      this.http.post(`${this.endpoint}/receipt/feedback?userToken=${this.userToken},feedbackToken=${feedbackToken}`,
-      inputJson).map(res => res.json()).subscribe(data => resolve(data));
-
-      // resolve(this.confiredRec);
-
+      const url = `${this.endpoint}/receipt/feedback?userToken=${this.userToken}&feedbackToken=${feedbackToken}`;
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(url,inputJson, {headers: headers})
+        .map(res => res.json())
+        .subscribe(data => {
+          console.log('sendUserFeedback success');
+          console.log(JSON.stringify(data));
+          resolve(data);
+        });
     })
   }
 
   sendPhoto(imgPath) {
 
     console.log('sendPhoto start')
-
     return new Promise(resolve => {
 
       const options = {

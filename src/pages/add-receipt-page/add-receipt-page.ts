@@ -80,13 +80,6 @@ export class AddReceiptPage {
               .then(imagePath => this.analyze(imagePath));
           }
         },
-        // {
-        //   text: 'Demo Photo',
-        //   // handler: () => {
-        //   //   console.log('Demo Photo')
-        //   //   this.analyze('assets/img/demo.jpg');
-        //   // }
-        // },
         {
           text: 'Cancel',
           role: 'cancel'
@@ -124,7 +117,6 @@ export class AddReceiptPage {
     this.dataprovider.sendPhoto(imagePath).then(res => {
       loader.dismissAll();
       console.log('analyze success');
-      this.receipt = {};
       this.receipt = res;
       console.log(this.receipt);
     });
@@ -135,18 +127,17 @@ export class AddReceiptPage {
   }
 
   onSubmit() {
-    console.log('onSubmit');
+    console.log('onSubmit start');
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
-      duration: 12000
     });
-    loader.present();
+    loader.present()
     console.log(this.receipt.items);
     this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
-      console.log(res);
-      setTimeout(() => {this.receipt = res;
-        loader.dismissAll();}, 5000);
-
+      console.log('onSubmit success');
+      console.log(JSON.stringify(res));
+      this.receipt = {};
+      loader.dismissAll();
     });
   }
 }
