@@ -4,6 +4,7 @@ import {Http, Headers} from "@angular/http";
 import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
+import {ShareService} from '../services/ShareService';
 /*
   Generated class for the DataProvider provider.
 
@@ -15,15 +16,17 @@ export class DataProvider {
 
   data: String;
   endpoint: String = "http://54.197.180.84/api";
-  userToken: String = "592ec7814953200cd50b00bb";
+  userToken: String;
 
   constructor(
     public http: Http,
     private transfer: Transfer,
     private file: File,
     private filePath: FilePath,
+    private shareService: ShareService
   ) {
     console.log('Hello DataProvider Provider');
+    this.userToken = this.shareService.get('userToken');
   }
 
   loadListing(input : any) {

@@ -3,6 +3,7 @@ import {NavController, NavParams, AlertController, LoadingController} from 'ioni
 import {ViewReceiptPage} from "../view-receipt-page/view-receipt-page";
 import {TabsPage} from "../tabs/tabs";
 import {LoginProvider} from "../../providers/loginProvider";
+import {ShareService} from '../../services/ShareService';
 
 /**
  * Generated class for the LoginPage page.
@@ -25,6 +26,7 @@ export class LoginPage {
     public alertCtrl: AlertController,
     public loginProvider: LoginProvider,
     public loadingCtrl: LoadingController,
+    private shareService: ShareService
   ) {
     this.data = {login: "", password: ""}
   }
@@ -46,7 +48,10 @@ export class LoginPage {
         let result:any = res
 
         if(result.isLogined) {
+
+          this.shareService.set('userToken', result.token);
           this.navCtrl.push(TabsPage);
+
         }
         else {
           let alert = this.alertCtrl.create({
