@@ -140,12 +140,24 @@ export class AddReceiptPage {
     });
     loader.present()
     console.log(this.receipt.items);
-    this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
-      console.log('onSubmit success');
-      console.log(JSON.stringify(res));
-      this.receipt = {};
-      this.isManualActive = false;
-      loader.dismissAll();
-    });
+
+    if(this.isManualActive) {
+      this.dataprovider.sendManualReceipt(JSON.stringify(this.receipt)).then(res => {
+        console.log('onSubmit success');
+        console.log(JSON.stringify(res));
+        this.receipt = {};
+        this.isManualActive = false;
+        loader.dismissAll();
+      })
+    }
+    else {
+      this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
+        console.log('onSubmit success');
+        console.log(JSON.stringify(res));
+        this.receipt = {};
+        this.isManualActive = false;
+        loader.dismissAll();
+      });
+    }
   }
 }

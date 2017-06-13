@@ -94,4 +94,23 @@ export class DataProvider {
       });
     });
   }
+
+  sendManualReceipt(inputJson : any) {
+
+    console.log('sendManualReceipt start');
+    console.log('inputJson: ' + JSON.stringify(inputJson));
+
+    return new Promise(resolve => {
+      const url = `${this.endpoint}/receipt/manual?userToken=${this.userToken}`;
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(url,inputJson, {headers: headers})
+        .map(res => res.json())
+        .subscribe(data => {
+          console.log('sendManualReceipt success');
+          console.log(JSON.stringify(data));
+          resolve(data);
+        });
+    });
+  }
 }
