@@ -36,27 +36,48 @@ export class LoginPage {
   }
 
   public login() {
-    // this.navCtrl.push(TabsPage);
+
     let loader = this.loadingCtrl.create({
       content: 'Please wait...'
     });
     loader.present();
     this.loginProvider.login(this.data)
       .then(res => {
-
         loader.dismissAll();
         let result:any = res
-
         if(result.isLogined) {
-
           this.shareService.set('userToken', result.token);
           this.navCtrl.push(TabsPage);
-
         }
         else {
           let alert = this.alertCtrl.create({
             title: 'Error',
             subTitle: 'Wrong username or password.\nTry again.',
+            buttons: ['OK']
+          });
+          alert.present();
+        }
+      })
+  }
+
+  public signup() {
+
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loader.present();
+    this.loginProvider.signup(this.data)
+      .then(res => {
+        loader.dismissAll();
+        let result:any = res
+        if(result.isLogined) {
+          this.shareService.set('userToken', result.token);
+          this.navCtrl.push(TabsPage);
+        }
+        else {
+          let alert = this.alertCtrl.create({
+            title: 'Error',
+            subTitle: 'Username already used.\nTry another one.',
             buttons: ['OK']
           });
           alert.present();
