@@ -34,6 +34,10 @@ export class LoginProvider {
           else resolve({
             isLogined: false
           })
+        }, err => {
+          resolve({
+            isLogined: false
+          })
         })
     })
   }
@@ -57,6 +61,10 @@ export class LoginProvider {
             token: response.userToken
           })
           else resolve({
+            isLogined: false
+          })
+        }, err => {
+          resolve({
             isLogined: false
           })
         })
