@@ -55,7 +55,7 @@ export class EditReceiptPage {
     this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
       console.log('onSubmit success');
       console.log(JSON.stringify(res));
-      this.receipt = res;
+      // this.receipt = res;
       loader.dismissAll();
     });
   }
