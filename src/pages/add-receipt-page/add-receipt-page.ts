@@ -19,7 +19,8 @@ export class AddReceiptPage {
 
   receipt : any;
   selectOptions: any;
-  isManualActive: Boolean;
+  mustShowForm: Boolean;
+  isManual: Boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -30,15 +31,12 @@ export class AddReceiptPage {
     public formBuilder: FormBuilder,
     public toastCtrl: ToastController,
   ) {
-    // this.addReceiptForm = this.formBuilder.group({
-    //   'itemName': ['', [Validators.required, Validators.minLength(3)]],
-    //   'itemPrice': ['']
-    // });
 
     this.receipt = {};
     this.selectOptions = { title: 'Category' };
     this.restartForm();
-    this.isManualActive = false;
+    this.isManual = false;
+    this.mustShowForm = false;
   }
 
   initItem() {
@@ -56,18 +54,19 @@ export class AddReceiptPage {
     this.receipt.items = [
       {name: '', val: 1, price: 0., value: 1},
     ];
-    this.restart();
   }
 
   addItemToReceipt() {
-    if(!this.isManualActive) {
-      this.isManualActive = true;
+    this.isManual = true;
+    if(!this.mustShowForm) {
+      this.mustShowForm = true;
     } else {
       this.receipt.items.push({name: '', val: 1, price: 0., value: 1});
     }
   }
 
   presentActionSheet() {
+    this.isManual = false;
     const actionSheet = this.actionSheetCtrl.create({
       buttons: [
         {
@@ -124,13 +123,9 @@ export class AddReceiptPage {
       console.log('analyze success');
       this.receipt = res;
       console.log(this.receipt);
-      this.isManualActive = true;
+      this.mustShowForm = true;
       console.log(this.receipt.feedbackToken);
     });
-  }
-
-  restart() {
-
   }
 
   onSubmit() {
@@ -141,21 +136,23 @@ export class AddReceiptPage {
     loader.present()
     console.log(this.receipt.items);
 
-    if(this.isManualActive) {
+    if(this.isManual) {
+      console.log('submiting manual receipt');
       this.dataprovider.sendManualReceipt(JSON.stringify(this.receipt)).then(res => {
-        console.log('onSubmit success');
+        console.log('onSubmit with sendManualReceipt success');
         console.log(JSON.stringify(res));
-        this.receipt = {};
-        this.isManualActive = false;
+        this.mustShowForm = false;
+        this.restartForm();
         loader.dismissAll();
       })
     }
     else {
+      console.log('submiting receipt via feedback');
       this.dataprovider.sendUserFeedback(JSON.stringify(this.receipt), this.receipt.feedbackToken).then(res => {
-        console.log('onSubmit success');
+        console.log('onSubmit with sendUserFeedback success');
         console.log(JSON.stringify(res));
-        this.receipt = {};
-        this.isManualActive = false;
+        this.mustShowForm = false;
+        this.restartForm();
         loader.dismissAll();
       });
     }

@@ -58,7 +58,7 @@
   <!--table-->
   <!--confirm button-->
 
-  <form #model="ngForm" (ngSubmit)="onSubmit()" *ngIf="isManualActive">
+  <form #model="ngForm" (ngSubmit)="onSubmit()" *ngIf="mustShowForm">
     <ion-grid>
       <ion-row text-wrap>
         <ion-col col-4 push-8><button ion-button center icon-right="" block color="danger" class="danger" #restart
