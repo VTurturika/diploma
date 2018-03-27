@@ -19,6 +19,7 @@ import {ShareService} from '../../services/ShareService';
 })
 export class LoginPage {
   data : any;
+  endpoint: string;
 
   constructor(
     public navCtrl: NavController,
@@ -28,7 +29,11 @@ export class LoginPage {
     public loadingCtrl: LoadingController,
     private shareService: ShareService
   ) {
-    this.data = {login: "", password: ""}
+    this.data = {
+      login: "",
+      password: ""
+    }
+    this.endpoint = "54.172.107.217"
   }
 
   ionViewDidLoad() {
@@ -41,7 +46,7 @@ export class LoginPage {
       content: 'Please wait...'
     });
     loader.present();
-    this.loginProvider.login(this.data)
+    this.loginProvider.login(this.data, this.endpoint)
       .then(res => {
         loader.dismissAll();
         let result:any = res
@@ -66,7 +71,7 @@ export class LoginPage {
       content: 'Please wait...'
     });
     loader.present();
-    this.loginProvider.signup(this.data)
+    this.loginProvider.signup(this.data, this.endpoint)
       .then(res => {
         loader.dismissAll();
         let result:any = res

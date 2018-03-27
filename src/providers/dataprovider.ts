@@ -15,7 +15,7 @@ import {ShareService} from '../services/ShareService';
 export class DataProvider {
 
   data: String;
-  endpoint: String = "http://192.168.0.101/api";
+  endpoint: String;
   userToken: String;
 
   constructor(
@@ -27,10 +27,10 @@ export class DataProvider {
   ) {
     console.log('Hello DataProvider Provider');
     this.userToken = this.shareService.get('userToken');
+    this.endpoint = this.shareService.get('endpoint');
   }
 
   loadListing(input : any) {
-
     return new Promise(resolve => {
       let url = `${this.endpoint}/user/list?userToken=${this.userToken}`;
       if(input.dateFrom) url = `${url}&dateFrom=${input.dateFrom}`;

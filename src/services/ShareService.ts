@@ -7,12 +7,12 @@ export class ShareService {
     this.container = {};
   }
 
-  set(key: String, value: any) {
-    this.container.key = value;
+  set(key: string, value: any) {
+    this.container[key] = value;
   }
 
-  get(key: String) {
-    return this.container.key;
+  get(key: string) {
+    return this.container[key];
   }
 
   clear() {

@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Http, Headers} from "@angular/http";
+import {ShareService} from '../services/ShareService';
 
 @Injectable()
 export class LoginProvider {
 
-  endpoint: String = "http://192.168.0.101/api";
+  endpoint: String = "";
 
   constructor(
-    public http: Http
+    public http: Http,
+    private shareService: ShareService
   ) {
     console.log('Hello UserProvider Provider');
   }
 
-  login(credentials: any) {
+  login(credentials: any, url: string) {
+
+    this.endpoint = `http://${url}/api`;
+    this.shareService.set('endpoint', this.endpoint);
 
     console.log('login start');
-    console.log(credentials);
     return new Promise(resolve => {
       const url = `${this.endpoint}/user/login`;
       let headers = new Headers();
@@ -42,7 +46,10 @@ export class LoginProvider {
     })
   }
 
-  signup(credentials: any) {
+  signup(credentials: any, url : string) {
+
+    this.endpoint = `http://${url}/api`;
+    this.shareService.set('endpoint', this.endpoint);
 
     console.log('signup start');
     console.log(credentials);
