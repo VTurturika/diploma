@@ -5,7 +5,7 @@ import {Http, Headers} from "@angular/http";
 @Injectable()
 export class LoginProvider {
 
-  endpoint: String = "http://54.197.180.84/api";
+  endpoint: String = "http://192.168.0.101/api";
 
   constructor(
     public http: Http

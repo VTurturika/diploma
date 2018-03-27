@@ -15,7 +15,7 @@ import {ShareService} from '../services/ShareService';
 export class DataProvider {
 
   data: String;
-  endpoint: String = "http://54.197.180.84/api";
+  endpoint: String = "http://192.168.0.101/api";
   userToken: String;
 
   constructor(
